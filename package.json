@@ -1,0 +1,27 @@
+{
+  "name": "daydash",
+  "version": "1.0.0",
+  "description": "Your personal day to day dashboard.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atommarvel/daydash.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atommarvel/daydash/issues"
+  },
+  "homepage": "https://github.com/atommarvel/daydash#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1"
+  }
+}
