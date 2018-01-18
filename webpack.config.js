@@ -17,7 +17,7 @@ const mod = {
 
 module.exports = {
     module: mod,
-    entry: './index.js',
+    entry: './src/index.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
