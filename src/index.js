@@ -1,4 +1,4 @@
-const WeekList = require('./WeekList.js');
+const WeekList = require('./ui/WeekList.js');
 
 ReactDOM.render(
     (

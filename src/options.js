@@ -1,3 +1,5 @@
+// This code was just copied from the example for chrome.storage in the docs. 
+
 // Saves options to chrome.storage.sync.
 function save_options() {
     var todoKey = document.getElementById('todoKey').value;
