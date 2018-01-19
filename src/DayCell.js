@@ -4,7 +4,7 @@ const CalView = require('./CalView.js');
 class DayCell extends React.Component {
     render() {
         return (
-            <div>
+            <div className={"day"}>
                 {this.props.daysAhead}
                 <TodoView/>
                 <CalView/>

@@ -3,7 +3,7 @@ const DayCell = require('./DayCell.js');
 class WeekList extends React.Component {
     render() {
         return (
-            <div>
+            <div className="week">
                 Week
                 {this.dayCellsToRender()}
             </div>

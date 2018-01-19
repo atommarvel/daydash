@@ -1,6 +1,6 @@
 class CalView extends React.Component {
     render() {
-        return <div>Calendar</div>;
+        return <div className="cal">Calendar</div>;
     }
 }
 

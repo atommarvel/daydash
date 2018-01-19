@@ -1,0 +1,21 @@
+$blue: rgb(17,26,48);
+$green: rgb(24,53,56);
+$yellow: rgb(253,188,62);
+$orange: rgb(253,107,35);
+$red: rgb(121,31,27);
+
+.week {
+  background: $blue;
+}
+
+.day {
+  background: $green;
+}
+
+.todo {
+  background: $yellow;
+}
+
+.cal {
+  background: $orange;
+}

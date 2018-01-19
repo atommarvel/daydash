@@ -109,4 +109,9 @@ fabric.properties
 
 .DS_Store
 
+# babel/webpack built files
 dist/
+
+# scss file watcher built files
+src/scss/*.css
+src/scss/*.css.map

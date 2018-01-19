@@ -1,6 +1,6 @@
 class TodoView extends React.Component {
     render() {
-        return <div>Todo</div>;
+        return <div className="todo">Todo</div>;
     }
 }
 
