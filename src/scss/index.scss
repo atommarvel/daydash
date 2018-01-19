@@ -5,11 +5,17 @@ $orange: rgb(253,107,35);
 $red: rgb(121,31,27);
 
 .week {
+  width: 200%;
   background: $blue;
+  display: flex;
+  flex-direction: row;
 }
 
 .day {
   background: $green;
+  color: $red;
+  width: 100%;
+  height: 90%;
 }
 
 .todo {
