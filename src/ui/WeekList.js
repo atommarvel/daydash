@@ -1,4 +1,5 @@
 const DayCell = require('./DayCell.js');
+const TodoistClient = require('../data/TodoistClient');
 
 class WeekList extends React.Component {
     render() {
@@ -21,5 +22,8 @@ class WeekList extends React.Component {
         return dayCells;
     }
 }
+
+const client = new TodoistClient();
+client.getThisWeeksItems().then(console.log);
 
 module.exports = WeekList;

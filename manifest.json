@@ -16,6 +16,7 @@
     "chrome_style": true
   },
   "permissions": [
-    "storage"
+    "storage",
+    "https://todoist.com/api/v7"
   ]
 }
