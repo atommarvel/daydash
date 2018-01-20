@@ -14,12 +14,14 @@ $red: rgb(121,31,27);
 .day {
   background: $green;
   color: $red;
-  width: 100%;
+  width: 400px;
   height: 90%;
+  flex-basis: 100%;
 }
 
 .todo {
   background: $yellow;
+  overflow-wrap: break-word;
 }
 
 .cal {

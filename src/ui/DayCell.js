@@ -1,4 +1,4 @@
-const TodoView = require('./TodoView.js');
+const TodoView = require('./TodoList.js');
 const CalView = require('./CalView.js');
 
 class DayCell extends React.Component {
