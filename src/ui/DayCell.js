@@ -6,7 +6,7 @@ class DayCell extends React.Component {
         return (
             <div className={"day"}>
                 {this.props.daysAhead}
-                <TodoView/>
+                <TodoView todos={this.props.todos}/>
                 <CalView/>
             </div>
         );

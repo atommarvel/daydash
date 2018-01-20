@@ -2,7 +2,7 @@
 // https://developer.todoist.com/
 const Promise = require('bluebird');
 const moment = require('moment');
-
+const cacheExpMin = 5;
 // TODO: implement partial sync
 
 class TodoistClient {
@@ -10,6 +10,7 @@ class TodoistClient {
         this.syncToken = "*";
         this.allItems = {};
         this.items = [{},{},{},{},{},{},{}];
+        this.cacheStamp = moment();
     }
 
     getAPIKey() {
@@ -51,6 +52,7 @@ class TodoistClient {
             body: body,
             headers: headers
         };
+        this.cacheExpires = moment().add(cacheExpMin, 'm');
         return fetch(url, init)
             .then(res => res.json());
     }
@@ -97,6 +99,7 @@ class TodoistClient {
     }
 
     async getThisWeeksItems() {
+        if (moment().isBefore(this.cacheStamp)) Promise.resolve(this.items);
         const syncData = await this.sync();
         console.log(syncData);
         this.parseItems(syncData.items);
