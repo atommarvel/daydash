@@ -8,6 +8,7 @@ class TodoList extends React.Component {
         });
         return (
             <div className="todo">
+                <div>Todoist</div>
                     {todoLi}
             </div>
         )
