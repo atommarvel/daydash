@@ -4,6 +4,11 @@ $yellow: rgb(253,188,62);
 $orange: rgb(253,107,35);
 $red: rgb(121,31,27);
 
+body {
+  background: $blue;
+  color: $red;
+}
+
 .week {
   width: 200%;
   background: $blue;
@@ -12,8 +17,7 @@ $red: rgb(121,31,27);
 }
 
 .day {
-  background: $green;
-  color: $red;
+  background: $blue;
   width: 400px;
   height: 90%;
   flex-basis: 100%;
@@ -22,6 +26,11 @@ $red: rgb(121,31,27);
 .todo {
   background: $yellow;
   overflow-wrap: break-word;
+}
+
+.todo > div {
+  padding-bottom: 10px;
+  padding-left: 5px;
 }
 
 .cal {

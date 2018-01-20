@@ -18,7 +18,6 @@ class WeekList extends React.Component {
     render() {
         return (
             <div className="week">
-                Week
                 {this.dayCellsToRender()}
             </div>
         );

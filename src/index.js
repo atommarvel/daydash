@@ -1,9 +1,10 @@
 const WeekList = require('./ui/WeekList.js');
+const GreetingView = require('./ui/GreetingView.js');
 
 ReactDOM.render(
     (
         <div>
-            <h1>Hello, Daydash!</h1>
+            <GreetingView/>
             <WeekList/>
         </div>
     ),
