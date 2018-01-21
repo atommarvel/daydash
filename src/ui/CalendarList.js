@@ -1,8 +1,9 @@
+const CalendarEventView = require('./CalendarEventView.js');
+
 class CalendarList extends React.Component {
     render() {
-        // TODO: render each item in it's own component (and add url parsing in there)
         const events = this.props.events.map((event, i) => {
-            return <div key={`li${i}`}>{event.summary}</div>
+            return <CalendarEventView key={`cev${i}`} event={event}/>
         });
         return (
             <div className="cal">
