@@ -16,7 +16,7 @@ class WeekList extends React.Component {
             this.setState({todos: items});
         });
 
-        this.gcalClient.getRequestedCalendars().then(console.log);
+        this.gcalClient.fetchThisWeeksEvents().then(console.log);
     }
 
     render() {
