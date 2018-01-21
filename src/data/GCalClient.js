@@ -8,6 +8,7 @@ class GCalClient {
 
     constructor() {
         this.reqCals = [];
+        this.events = [[],[],[],[],[],[],[]];
     }
 
     getAccessToken() {
@@ -44,13 +45,17 @@ class GCalClient {
         if (this.reqCals.length > 0) return Promise.resolve(this.reqCals);
         const allCalendars = await this.fetchAllCalendars();
         const calNames = await this.getCalNames();
-        this.reqCals = allCalendars.filter(cal => calNames.indexOf(cal.summary) !== -1)
+        this.reqCals = allCalendars.filter(cal => calNames.indexOf(cal.summary) !== -1);
         return Promise.resolve(this.reqCals);
     }
 
     async fetchThisWeeksEvents() {
         const cals = await this.getRequestedCalendars();
-        const cal = cals[1]; // TODO: iterate over all calendars
+        return Promise.map(cals, this.fetchEventsForCal.bind(this))
+            .then(this.organizeEventsIntoDays.bind(this));
+    }
+
+    fetchEventsForCal(cal) {
         const api = `${baseUrl}/calendars/${cal.id}/events`;
         const timeMin = `timeMin=${moment().startOf('day').format()}`;
         const timeMax = `timeMax=${moment().endOf('day').add(6,'d').format()}`;
@@ -60,7 +65,45 @@ class GCalClient {
                 return {headers: headers};
             })
             .then(init => fetch(url, init))
-            .then(res => res.json());
+            .then(res => res.json())
+            .then(events => events.items);
+    }
+
+    organizeEventsIntoDays(calEvents) {
+        this.events = [[],[],[],[],[],[],[]];
+        // TODO: create a day sorting util for both todoist and gcal
+        calEvents.forEach(events => {
+            events.forEach(event => {
+                this.placeEventIntoDayArray(event);
+            });
+        });
+        // TODO: resort events in their arrays
+        return this.events;
+    }
+
+    placeEventIntoDayArray(event) {
+        const daysAhead = this.getDaysAhead(event);
+        if (daysAhead === null) return;
+        this.events[daysAhead].push(event);
+    }
+
+    getDaysAhead(event) {
+        if (!event.start) return null;
+        const allowableDaysAhead = 6;
+        let curDaysAhead = 0;
+        for (curDaysAhead; curDaysAhead <= allowableDaysAhead; curDaysAhead++) {
+            if (this.isEventInDay(event, curDaysAhead)) {
+                return curDaysAhead;
+            }
+        }
+        return null;
+    }
+
+    isEventInDay(event, daysAhead) {
+        let beginningOfDay = moment().startOf('day').add(daysAhead, 'd');
+        let endOfDay = moment().endOf('day').add(daysAhead, 'd');
+        let itemDueDate = moment(event.start.dateTime || event.start.date);
+        return itemDueDate.isBetween(beginningOfDay, endOfDay);
     }
 
     fetchAllCalendars() {
@@ -79,9 +122,7 @@ class GCalClient {
             headers = new Headers();
         }
         const token = await this.getAccessToken();
-        console.log(token);
         headers.append('authorization', `Bearer ${token}`);
-        console.log(headers);
         return headers;
     }
 
