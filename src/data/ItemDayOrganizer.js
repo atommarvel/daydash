@@ -11,10 +11,16 @@ class ItemDayOrganizer {
         this.items.forEach(item => {
             this.placeEventIntoDayArray(item);
         });
+        this.sortDayArr();
+        return this.dayArr;
+    }
+
+    sortDayArr() {
         if (this.isGCal) {
             this.dayArr = this.dayArr.map(this.sortByStartTime);
+        } else {
+            this.dayArr = this.dayArr.map(this.sortByDayOrder);
         }
-        return this.dayArr;
     }
 
     sortByStartTime(arr) {
@@ -26,6 +32,20 @@ class ItemDayOrganizer {
                 return -1;
             }
             if (timeA.isAfter(timeB)) {
+                return 1;
+            }
+            return 0;
+        }
+
+        return arr.sort(compare);
+    }
+
+    sortByDayOrder(arr) {
+        function compare(a, b) {
+            if (a.day_order < b.day_order) {
+                return -1;
+            }
+            if (a.day_order > b.day_order) {
                 return 1;
             }
             return 0;
