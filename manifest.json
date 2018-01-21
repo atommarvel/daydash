@@ -17,6 +17,16 @@
   },
   "permissions": [
     "storage",
-    "https://todoist.com/api/v7"
-  ]
+    "identity",
+    "https://todoist.com/api/v7",
+    "https://ssl.gstatic.com/",
+    "https://www.googleapis.com/",
+    "https://accounts.google.com/"
+  ],
+  "oauth2": {
+    "client_id": "373566962371-h03mg4e6itcj1c891ln4j4964ustqu82.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.readonly"
+    ]
+  }
 }

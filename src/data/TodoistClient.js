@@ -23,7 +23,6 @@ class TodoistClient {
                 todoKey: ""
             }, function(items) {
                 this.apiKey = items.todoKey;
-                console.log(this.apiKey);
                 if (this.apiKey.length === 0) console.log('todoist api key is missing');
                 this.apiKey ? resolve(this.apiKey) : reject();
             });
@@ -32,13 +31,10 @@ class TodoistClient {
 
     async getSyncBody() {
         const apiKey = await this.getAPIKey();
-        console.log(apiKey);
         const tokenParam = `token=${apiKey}`;
         const sync_tokenParam = `sync_token=${this.syncToken}`;
         const resource_typeParam = `resource_types=["all"]`;
-        const body = `${tokenParam}&${sync_tokenParam}&${resource_typeParam}`;
-        console.log(body);
-        return body;
+        return `${tokenParam}&${sync_tokenParam}&${resource_typeParam}`;
     }
 
     async sync() {
@@ -61,7 +57,6 @@ class TodoistClient {
         this.allItems = {};
         this.resetItems();
         items.forEach(item => {
-            console.log(item.content);
             this.allItems[item.id] = item;
             // organize items into next 7 days
             this.placeItemIntoDayArray(item);
@@ -101,7 +96,6 @@ class TodoistClient {
     async getThisWeeksItems() {
         if (moment().isBefore(this.cacheStamp)) Promise.resolve(this.items);
         const syncData = await this.sync();
-        console.log(syncData);
         this.parseItems(syncData.items);
         return this.items;
     }

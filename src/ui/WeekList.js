@@ -1,5 +1,6 @@
 const DayCell = require('./DayCell.js');
 const TodoistClient = require('../data/TodoistClient');
+const GCalClient = require('../data/GCalClient.js');
 
 class WeekList extends React.Component {
 
@@ -7,12 +8,15 @@ class WeekList extends React.Component {
         super(props);
         this.state = {todos: []};
         this.todoClient = new TodoistClient();
+        this.gcalClient = new GCalClient();
     }
 
     componentDidMount() {
         this.todoClient.getThisWeeksItems().then(items => {
             this.setState({todos: items});
         });
+
+        this.gcalClient.fetchCalendarIds();
     }
 
     render() {
