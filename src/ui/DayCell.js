@@ -1,5 +1,5 @@
 const TodoView = require('./TodoList.js');
-const CalView = require('./CalView.js');
+const CalView = require('./CalendarList.js');
 const moment = require('moment');
 
 class DayCell extends React.Component {
@@ -8,7 +8,7 @@ class DayCell extends React.Component {
             <div className={"day"}>
                 <h2>{moment().add(this.props.daysAhead, 'd').format("dddd")}</h2>
                 <TodoView todos={this.props.todos}/>
-                <CalView/>
+                <CalView events={this.props.events}/>
             </div>
         );
     }

@@ -6,7 +6,7 @@ class WeekList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {todos: []};
+        this.state = {todos: [], events: []};
         this.todoClient = new TodoistClient();
         this.gcalClient = new GCalClient();
     }
@@ -16,7 +16,9 @@ class WeekList extends React.Component {
             this.setState({todos: items});
         });
 
-        this.gcalClient.fetchThisWeeksEvents().then(console.log);
+        this.gcalClient.fetchThisWeeksEvents().then(events => {
+            this.setState({events: events});
+        });
     }
 
     render() {
@@ -31,7 +33,11 @@ class WeekList extends React.Component {
         const daysAhead = [0,1,2,3,4,5,6];
         const dayCells = daysAhead.map(ahead => {
             return (
-                <DayCell key={ahead.toString()} daysAhead={ahead} todos={this.state.todos[ahead] || []}/>
+                <DayCell key={ahead.toString()}
+                         daysAhead={ahead}
+                         todos={this.state.todos[ahead] || []}
+                         events={this.state.events[ahead] || []}
+                />
             )
         });
 
