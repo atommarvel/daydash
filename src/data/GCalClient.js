@@ -2,6 +2,7 @@
 // https://developers.google.com/google-apps/calendar/
 const Promise = require('bluebird');
 const moment = require('moment');
+const ItemDayOrganizer = require('./ItemDayOrganizer.js');
 const baseUrl = 'https://www.googleapis.com/calendar/v3';
 
 class GCalClient {
@@ -51,8 +52,17 @@ class GCalClient {
 
     async fetchThisWeeksEvents() {
         const cals = await this.getRequestedCalendars();
+
         return Promise.map(cals, this.fetchEventsForCal.bind(this))
-            .then(this.organizeEventsIntoDays.bind(this));
+            .then(this.flatten)
+            .then(events => {
+                const itemOrganizer = new ItemDayOrganizer(events, true);
+                return itemOrganizer.getOrganizedArr();
+            })
+    }
+
+    flatten(arr) {
+        return Array.prototype.concat(...arr);
     }
 
     fetchEventsForCal(cal) {
@@ -67,43 +77,6 @@ class GCalClient {
             .then(init => fetch(url, init))
             .then(res => res.json())
             .then(events => events.items);
-    }
-
-    organizeEventsIntoDays(calEvents) {
-        this.events = [[],[],[],[],[],[],[]];
-        // TODO: create a day sorting util for both todoist and gcal
-        calEvents.forEach(events => {
-            events.forEach(event => {
-                this.placeEventIntoDayArray(event);
-            });
-        });
-        // TODO: resort events in their arrays
-        return this.events;
-    }
-
-    placeEventIntoDayArray(event) {
-        const daysAhead = this.getDaysAhead(event);
-        if (daysAhead === null) return;
-        this.events[daysAhead].push(event);
-    }
-
-    getDaysAhead(event) {
-        if (!event.start) return null;
-        const allowableDaysAhead = 6;
-        let curDaysAhead = 0;
-        for (curDaysAhead; curDaysAhead <= allowableDaysAhead; curDaysAhead++) {
-            if (this.isEventInDay(event, curDaysAhead)) {
-                return curDaysAhead;
-            }
-        }
-        return null;
-    }
-
-    isEventInDay(event, daysAhead) {
-        let beginningOfDay = moment().startOf('day').add(daysAhead, 'd');
-        let endOfDay = moment().endOf('day').add(daysAhead, 'd');
-        let itemDueDate = moment(event.start.dateTime || event.start.date);
-        return itemDueDate.isBetween(beginningOfDay, endOfDay);
     }
 
     fetchAllCalendars() {

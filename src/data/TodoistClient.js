@@ -2,6 +2,7 @@
 // https://developer.todoist.com/
 const Promise = require('bluebird');
 const moment = require('moment');
+const ItemDayOrganizer = require('./ItemDayOrganizer.js');
 const cacheExpMin = 5;
 // TODO: implement partial sync
 
@@ -53,51 +54,11 @@ class TodoistClient {
             .then(res => res.json());
     }
 
-    parseItems(items) {
-        this.allItems = {};
-        this.resetItems();
-        items.forEach(item => {
-            this.allItems[item.id] = item;
-            // organize items into next 7 days
-            this.placeItemIntoDayArray(item);
-        });
-
-    }
-
-    placeItemIntoDayArray(item) {
-        const daysAhead = this.getDueDateDaysAhead(item);
-        if (daysAhead === null) return;
-        this.items[daysAhead][item.id] = item;
-    }
-
-    getDueDateDaysAhead(item) {
-        if (!item.due_date_utc) return null;
-        const allowableDaysAhead = 6;
-        let curDaysAhead = 0;
-        for (curDaysAhead; curDaysAhead <= allowableDaysAhead; curDaysAhead++) {
-            if (this.isDueDateInDay(item, curDaysAhead)) {
-                return curDaysAhead;
-            }
-        }
-        return null;
-    }
-
-    isDueDateInDay(item, daysAhead) {
-        let beginningOfDay = moment().startOf('day').add(daysAhead, 'd');
-        let endOfDay = moment().endOf('day').add(daysAhead, 'd');
-        let itemDueDate = moment.utc(item.due_date_utc);
-        return itemDueDate.isBetween(beginningOfDay, endOfDay);
-    }
-
-    resetItems() {
-        this.items = [{},{},{},{},{},{},{}];
-    }
-
     async getThisWeeksItems() {
-        if (moment().isBefore(this.cacheStamp)) Promise.resolve(this.items);
+        if (moment().isBefore(this.cacheExpires)) Promise.resolve(this.items);
         const syncData = await this.sync();
-        this.parseItems(syncData.items);
-        return this.items;
+        const organizer = new ItemDayOrganizer(syncData.items, false);
+        return organizer.getOrganizedArr();
     }
 }
 
