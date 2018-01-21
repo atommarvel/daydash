@@ -7,7 +7,6 @@ class GCalClient {
     getAccessToken() {
         return new Promise((resolve, reject) => {
             chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-                // Use the token.
                 if (chrome.runtime.lastError) {
                     reject(chrome.runtime.lastError);
                 } else {
@@ -17,10 +16,32 @@ class GCalClient {
         });
     }
 
-    fetchCalendarIds() {
+    getCalNames() {
+        if (this.calIds) {
+            return Promise.resolve(this.calIds);
+        }
+
+        return new Promise((resolve, reject) => {
+            chrome.storage.sync.get({
+                calIds: ""
+            }, function(items) {
+                this.calIds = items.calIds.split(',');
+                if (this.calIds.length === 0) console.log('Calendar Names key is missing.');
+                // this.calIds ? resolve(this.calIds) : reject();
+                resolve(this.calIds);
+            });
+        });
+    }
+
+    getRequestedCalendars() {
+        return Promise.join(this.fetchAllCalendars(), this.getCalNames(), (allCalendars, calNames) => {
+                return allCalendars.filter(cal => calNames.indexOf(cal.summary) !== -1)
+        });
+    }
+
+    fetchAllCalendars() {
         const url = `${baseUrl}/users/me/calendarList`;
-        Promise.join();
-        this.getAccessToken()
+        return this.getAccessToken()
             .then(token => {
                 let headers = new Headers();
                 headers.append('Authorization', `Bearer ${token}`);
@@ -28,8 +49,10 @@ class GCalClient {
             })
             .then(init => fetch(url, init))
             .then(res => res.json())
-            .then(console.log);
+            .then(json => json.items);
     }
+
+
 }
 
 module.exports = GCalClient;

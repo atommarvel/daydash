@@ -2,9 +2,11 @@
 
 // Saves options to chrome.storage.sync.
 function save_options() {
-    var todoKey = document.getElementById('todoKey').value;
+    const todoKey = document.getElementById('todoKey').value;
+    const calIds = document.getElementById('calIds').value;
     chrome.storage.sync.set({
-        todoKey: todoKey
+        todoKey: todoKey,
+        calIds: calIds
     }, function() {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
@@ -20,9 +22,11 @@ function save_options() {
 function restore_options() {
     // Use default value empty string
     chrome.storage.sync.get({
-        todoKey: ""
+        todoKey: "",
+        calIds: ""
     }, function(items) {
         document.getElementById('todoKey').value = items.todoKey;
+        document.getElementById('calIds').value = items.calIds;
     });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
