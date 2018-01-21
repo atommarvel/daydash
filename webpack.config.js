@@ -17,9 +17,12 @@ const mod = {
 
 module.exports = {
     module: mod,
-    entry: './src/index.js',
+    entry: {
+        index: './src/index.js',
+        eventpage: './src/eventpage.js'
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
     }
 };

@@ -11,6 +11,10 @@
   "chrome_url_overrides" : {
     "newtab": "index.html"
   },
+  "background": {
+    "scripts": ["./dist/eventpage.js"],
+    "persistent": false
+  },
   "options_ui": {
     "page": "options.html",
     "chrome_style": true

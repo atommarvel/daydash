@@ -1,23 +1,19 @@
 const DayCell = require('./DayCell.js');
-const TodoistClient = require('../data/TodoistClient');
-const GCalClient = require('../data/GCalClient.js');
 
 class WeekList extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {todos: [], events: []};
-        this.todoClient = new TodoistClient();
-        this.gcalClient = new GCalClient();
     }
 
     componentDidMount() {
-        this.todoClient.getThisWeeksItems().then(items => {
-            this.setState({todos: items});
+        chrome.runtime.sendMessage({fetchTodos: true}, res => {
+            this.setState({todos: res.items});
         });
 
-        this.gcalClient.fetchThisWeeksEvents().then(events => {
-            this.setState({events: events});
+        chrome.runtime.sendMessage({fetchCalEvents: true}, res => {
+            this.setState({events: res.events});
         });
     }
 
