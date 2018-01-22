@@ -1,30 +1,42 @@
-$blue: rgb(17,26,48);
-$green: rgb(24,53,56);
-$yellow: rgb(253,188,62);
-$orange: rgb(253,107,35);
-$red: rgb(121,31,27);
+$bg: rgb(43,43,43);
+$headers: rgb(200,120,50);
+$textC: rgb(176,176,176);
+$tdbg: rgb(38,71,47);
+$cbg: #2B3D54;
+$anchors: rgb(109,156,190);
+$greeting: rgb(200,165,95);
 
 body {
-  background: $blue;
-  color: $red;
+  background: $bg;
+  color: $textC;
+}
+
+h1 {
+  color: $greeting;
+}
+
+h2 {
+  color: $headers;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: $anchors;
 }
 
 .week {
   width: 200%;
-  background: $blue;
   display: flex;
   flex-direction: row;
 }
 
 .day {
-  background: $blue;
   width: 400px;
   height: 90%;
   flex-basis: 100%;
 }
 
 .todo {
-  background: $yellow;
+  background: $tdbg;
   overflow-wrap: break-word;
 }
 
@@ -39,5 +51,5 @@ body {
 }
 
 .cal {
-  background: $orange;
+  background: $cbg;
 }
