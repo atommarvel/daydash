@@ -33,6 +33,7 @@ a:link, a:visited, a:hover, a:active {
   width: 400px;
   height: 90%;
   flex-basis: 100%;
+  padding-right: 8px;
 }
 
 .todo {
@@ -41,13 +42,15 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .todo > div {
-  padding-bottom: 10px;
-  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 10px;
 }
 
 .cal > div {
-  padding-bottom: 10px;
-  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
 
 .cal {
