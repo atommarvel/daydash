@@ -7,7 +7,7 @@ class CalendarList extends React.Component {
         });
         return (
             <div className="cal">
-                <div>Calendar</div>
+                <div>Calendar ({this.props.events.length})</div>
                 {events}
             </div>
         )

@@ -2,15 +2,12 @@ const TodoItemView = require('./TodoItemView.js');
 
 class TodoList extends React.Component {
     render() {
-        // TODO: render each item in it's own component (and add url parsing in there)
-        const keys = Object.keys(this.props.todos);
-        const todos = keys.map((key, i) => {
-            const todo = this.props.todos[key];
+        const todos = this.props.todos.map((todo, i) => {
             return <TodoItemView key={`tiv${i}`} todo={todo}/>
         });
         return (
             <div className="todo">
-                <div>Todoist</div>
+                <div>Todos ({this.props.todos.length})</div>
                     {todos}
             </div>
         )
