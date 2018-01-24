@@ -7,8 +7,8 @@ class TodoList extends React.Component {
         });
         return (
             <div className="todo">
-                <div>Todos ({this.props.todos.length})</div>
-                    {todos}
+                {this.props.header}
+                {todos}
             </div>
         )
     }

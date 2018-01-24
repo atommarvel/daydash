@@ -5,21 +5,8 @@ class GreetingView extends React.Component {
         return (
             <div className="greet">
                 <h1>Hello, Daydash!</h1>
-                {this.renderOverdueItems()}
             </div>
         );
-    }
-
-    renderOverdueItems() {
-        if (this.props.overdue.length > 0) {
-            return (
-                <div>
-                    You've got overdue items!
-                    <TodoList todos={this.props.overdue}/>
-                </div>
-
-            );
-        }
     }
 }
 

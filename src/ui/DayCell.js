@@ -7,7 +7,7 @@ class DayCell extends React.Component {
         return (
             <div className={"day"}>
                 <h2>{moment().add(this.props.daysAhead, 'd').format("dddd")}</h2>
-                <TodoView todos={this.props.todos}/>
+                <TodoView todos={this.props.todos} header={<div>Todos ({this.props.todos.length})</div>}/>
                 <CalView events={this.props.events}/>
             </div>
         );
