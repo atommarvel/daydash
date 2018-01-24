@@ -4,12 +4,12 @@ class WeekList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {todos: [], events: []};
+        this.state = {todos: [], events: [], overdue: []};
     }
 
     componentDidMount() {
         chrome.runtime.sendMessage({fetchTodos: true}, res => {
-            this.setState({todos: res.items});
+            this.setState({todos: res.items.days, overdue: res.items.overdue || []});
         });
 
         chrome.runtime.sendMessage({fetchCalEvents: true}, res => {

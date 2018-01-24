@@ -58,8 +58,13 @@ class TodoistClient {
         if (moment().isBefore(this.cacheExpires)) Promise.resolve(this.items);
         const syncData = await this.sync();
         const organizer = new ItemDayOrganizer(syncData.items, false);
-        return organizer.getOrganizedArr();
+        return {
+            days: organizer.getOrganizedArr(),
+            overdue: organizer.getOlderItems()
+        };
     }
+
+
 }
 
 module.exports = TodoistClient;

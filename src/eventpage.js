@@ -22,7 +22,7 @@ function fetchTodos(cb) {
         todoClient.getThisWeeksItems()
             .then(items => {
                 console.log(items);
-                eventCache.setTodos(items)
+                eventCache.setTodos(items);
                 cb({items: items});
             });
         return true;

@@ -15,6 +15,12 @@ class ItemDayOrganizer {
         return this.dayArr;
     }
 
+    getOlderItems() {
+        const startOfToday = moment().startOf('day');
+        const older = this.items.filter(item => moment.utc(item.due_date_utc).isBefore(startOfToday));
+        return older;
+    }
+
     sortDayArr() {
         if (this.isGCal) {
             this.dayArr = this.dayArr.map(this.sortByStartTime);
