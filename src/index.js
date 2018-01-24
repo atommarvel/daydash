@@ -1,12 +1,8 @@
-const WeekList = require('./ui/WeekList.js');
-const GreetingView = require('./ui/GreetingView.js');
+const App = require('./ui/App.js');
 
 ReactDOM.render(
     (
-        <div>
-            <GreetingView/>
-            <WeekList/>
-        </div>
+        <App/>
     ),
 document.getElementById('root')
 );

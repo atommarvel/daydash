@@ -4,17 +4,6 @@ class WeekList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {todos: [], events: [], overdue: []};
-    }
-
-    componentDidMount() {
-        chrome.runtime.sendMessage({fetchTodos: true}, res => {
-            this.setState({todos: res.items.days, overdue: res.items.overdue || []});
-        });
-
-        chrome.runtime.sendMessage({fetchCalEvents: true}, res => {
-            this.setState({events: res.events});
-        });
     }
 
     render() {
@@ -31,8 +20,8 @@ class WeekList extends React.Component {
             return (
                 <DayCell key={ahead.toString()}
                          daysAhead={ahead}
-                         todos={this.state.todos[ahead] || []}
-                         events={this.state.events[ahead] || []}
+                         todos={this.props.todos[ahead] || []}
+                         events={this.props.events[ahead] || []}
                 />
             )
         });
