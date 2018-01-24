@@ -5,6 +5,7 @@ $tdbg: rgb(38,71,47);
 $cbg: #2B3D54;
 $anchors: rgb(109,156,190);
 $greeting: rgb(200,165,95);
+$red: rgb(52,4,4);
 
 body {
   background: $bg;
@@ -36,8 +37,13 @@ a:link, a:visited, a:hover, a:active {
   padding-right: 8px;
 }
 
-.todo {
+.day > .todo {
   background: $tdbg;
+  overflow-wrap: break-word;
+}
+
+.greet > div > .todo {
+  background: $red;
   overflow-wrap: break-word;
 }
 

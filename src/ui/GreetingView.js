@@ -1,10 +1,26 @@
+const TodoList = require('./TodoList.js');
+
 class GreetingView extends React.Component {
     render() {
         return (
-            <h1>
-                Hello, Daydash!
-            </h1>
+            <div className="greet">
+                <h1>Hello, Daydash!</h1>
+                {this.renderOverdueItems()}
+            </div>
         );
+    }
+
+    renderOverdueItems() {
+        if (this.props.overdue.length > 0) {
+            console.log(this.props.overdue);
+            return (
+                <div>
+                    You've got overdue items!
+                    <TodoList todos={this.props.overdue}/>
+                </div>
+
+            );
+        }
     }
 }
 

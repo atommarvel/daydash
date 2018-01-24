@@ -11,7 +11,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <GreetingView/>
+                <GreetingView overdue={this.state.overdue}/>
                 <WeekList todos={this.state.todos} events={this.state.events} overdue={this.state.overdue}/>
             </div>
             );
