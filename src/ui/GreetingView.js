@@ -12,7 +12,6 @@ class GreetingView extends React.Component {
 
     renderOverdueItems() {
         if (this.props.overdue.length > 0) {
-            console.log(this.props.overdue);
             return (
                 <div>
                     You've got overdue items!

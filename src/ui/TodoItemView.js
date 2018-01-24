@@ -43,20 +43,20 @@ class TodoItemView extends React.Component {
             const startIndex = range[0];
             const endIndex = range[1];
             const text = wordArray.slice(curIndex,startIndex-1).join(" ");
-            const section = <span>{text}</span>;
+            const section = <span key={curIndex}>{text}</span>;
             jsx.push(section);
             curIndex = startIndex-1;
             const url = wordArray[curIndex];
             curIndex++;
             let anchorText = wordArray.slice(curIndex,endIndex+1).join(" ");
             anchorText = anchorText.slice(1,anchorText.length-1);
-            const anchor = <a href={url}>{anchorText}</a>;
+            const anchor = <a href={url} key={curIndex}>{anchorText}</a>;
             jsx.push(anchor);
             curIndex = endIndex+1;
             // if its the last href, div the rest
             if (curIndex < wordArray.length && i < hrefIndexRanges.length) {
                 const textEnd = wordArray.slice(curIndex,wordArray.length).join(" ");
-                const sectionEnd = <span>{textEnd}</span>;
+                const sectionEnd = <span key={curIndex}>{textEnd}</span>;
                 jsx.push(sectionEnd);
             }
         });
