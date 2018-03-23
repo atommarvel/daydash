@@ -28,7 +28,7 @@
     "https://accounts.google.com/"
   ],
   "oauth2": {
-    "client_id": "373566962371-h03mg4e6itcj1c891ln4j4964ustqu82.apps.googleusercontent.com",
+    "client_id": "373566962371-3drgs1r9lv4vifdrup4r0ejtctcqh53o.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar.readonly"
     ]
