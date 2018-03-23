@@ -10,15 +10,15 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log(request);
         if (request.fetchTodos) {
-            return fetchTodos(sendResponse);
+            return fetchTodos(request, sendResponse);
         } else if (request.fetchCalEvents) {
-            return fetchCalEvents(sendResponse);
+            return fetchCalEvents(request, sendResponse);
         }
         return true;
 });
 
-function fetchTodos(cb) {
-    if (eventCache.isTodoCacheStale()) {
+function fetchTodos(req, cb) {
+    if (eventCache.isTodoCacheStale() || req.force) {
         todoClient.getThisWeeksItems()
             .then(items => {
                 console.log(items);
@@ -32,8 +32,8 @@ function fetchTodos(cb) {
     return false;
 }
 
-function fetchCalEvents(cb) {
-    if (eventCache.isEventCacheStale()) {
+function fetchCalEvents(req, cb) {
+    if (eventCache.isEventCacheStale() || req.force) {
         calClient.fetchThisWeeksEvents()
             .then(events => {
                 console.log(events);

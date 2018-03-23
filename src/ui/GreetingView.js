@@ -4,7 +4,7 @@ class GreetingView extends React.Component {
     render() {
         return (
             <div className="greet">
-                <h1>Hello, Daydash!</h1>
+                <h1 id={"refresh"} onClick={this.props.forceRefresh}><u>Hello, Daydash!</u></h1>
             </div>
         );
     }
