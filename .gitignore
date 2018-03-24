@@ -115,3 +115,6 @@ dist/
 # scss file watcher built files
 src/scss/*.css
 src/scss/*.css.map
+
+# local builds
+builds/

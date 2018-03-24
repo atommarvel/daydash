@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Daydash",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Your personal day to day dashboard.",
   "icons": {
     "16": "img/logo16.png",
@@ -28,9 +28,10 @@
     "https://accounts.google.com/"
   ],
   "oauth2": {
-    "client_id": "373566962371-3drgs1r9lv4vifdrup4r0ejtctcqh53o.apps.googleusercontent.com",
+    "client_id": "373566962371-h03mg4e6itcj1c891ln4j4964ustqu82.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar.readonly"
     ]
-  }
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlyL/dDbXEXvFy+1+NL3TJt3U1TZnx9aNc/LmKfFeIzO5jImioriwGS+tTYMkJCVDYvPCcAq24lllsZLO7liQSf79oD/85/4pqstjjQIT0qiPTc41y+jTNeZ3/+bCuvtXTwlGJwZRpp3+iqw13xmJ3MibtM4eEuSIcff1sFTpssiWEOwNL0oDG1+w82689fQlaDOalhIeEKt4wGGE6Gstehfkp0LFc662iME47qPFX6AsVje7ZNaxK74YolRBykCJBB8PYvFONQkGgQ1C4TNF8tiisBIS+vVx+r6F6FUCoAnYc6XNZ630vaNIvXBudG+sDY5Q1Qr07P+wpGtuaxclJwIDAQAB"
 }

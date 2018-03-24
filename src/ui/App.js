@@ -40,7 +40,7 @@ class App extends React.Component {
             );
         }
     }
-    
+
     renderOverdueItemsHeader() {
         return <div>You've got overdue items!</div>
     }

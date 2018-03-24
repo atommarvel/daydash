@@ -19,7 +19,8 @@ module.exports = {
     module: mod,
     entry: {
         index: './src/index.js',
-        eventpage: './src/eventpage.js'
+        eventpage: './src/eventpage.js',
+        options: './src/options.js'
     },
     output: {
         filename: '[name].js',
