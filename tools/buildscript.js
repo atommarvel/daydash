@@ -11,9 +11,9 @@ async function main() {
     ensureFolders();
     copyFiles();
     writeManifest();
-    await zipBuild();
+    const filename = await zipBuild();
     cleanup();
-    console.log('Finished with no issues. The zip is in the ./builds folder');
+    console.log(`Finished with no issues. The build can be found here: ${filename}`);
 }
 
 function ensureFolders() {
@@ -43,8 +43,9 @@ function writeManifest() {
 function zipBuild() {
     return new Promise((resolve, reject) => {
         const version = getVersionNumber();
-        zipFolder(BUILD_PATH, `${BUILDS_PATH}/daydash-${version}.zip`, err => {
-            err ? reject() : resolve();
+        const output = `${BUILDS_PATH}/daydash-${version}.zip`;
+        zipFolder(BUILD_PATH, output, err => {
+            err ? reject(err) : resolve(output);
         });
     });
 }
