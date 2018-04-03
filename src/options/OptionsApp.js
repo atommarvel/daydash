@@ -7,10 +7,12 @@ const initialState = {
     todoKey: {
         title: "Todoist API Key",
         type: "textboxOption",
+        value: ""
     },
     calIds: {
         title: "Calendar Names",
-        type: "textboxOption",
+        type: "calendarOption",
+        value: ""
     },
     keys: ["todoKey", "calIds"]
 };
@@ -44,7 +46,7 @@ class OptionsApp extends React.Component {
             return (<div>Loading...</div>);
         } else {
             let items = this.state.keys.map((key) => {
-                return <OptionItem data={this.state[key]} optionChangeListener={this.optionChangeListener} key={key}/>
+                return <OptionItem data={this.state[key]} changeListener={this.optionChangeListener} key={key} storageKey={key}/>
             });
 
             return (
@@ -62,13 +64,13 @@ class OptionsApp extends React.Component {
                 result = (<div></div>);
                 break;
             case "changes":
-                result = (<button onClick={this.saveAll}>Save</button>);
+                result = (<button onClick={this.saveAll} className={"saveBtn"}>Save</button>);
                 break;
             case "saving":
-                result = (<div>Saving</div>);
+                result = (<div className={"saveBtn"}>Saving</div>);
                 break;
             case "saved":
-                result = (<div>Saved Options</div>);
+                result = (<div className={"saveBtn"}>Saved Options</div>);
         }
         return result;
     }
@@ -91,8 +93,8 @@ class OptionsApp extends React.Component {
     }
 
     optionChangeListener(key, data) {
-        let newState = {};
-        newState[key] = data;
+        let newState = this.state;
+        newState[key].value = data;
         newState.btnState = "changes";
         this.setState(newState);
     }

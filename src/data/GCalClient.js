@@ -3,6 +3,7 @@
 const Promise = require('bluebird');
 const moment = require('moment');
 const ItemDayOrganizer = require('./ItemDayOrganizer.js');
+const StorageClient = require('./StorageClient.js');
 const baseUrl = 'https://www.googleapis.com/calendar/v3';
 
 class GCalClient {
@@ -25,29 +26,20 @@ class GCalClient {
     }
 
     getCalNames() {
-        if (this.calIds) {
-            return Promise.resolve(this.calIds);
-        }
-
-        return new Promise((resolve, reject) => {
-            chrome.storage.sync.get({
-                calIds: ""
-            }, function(items) {
-                this.calIds = items.calIds.split(',');
-                if (this.calIds.length === 0) console.log('Calendar Names key is missing.');
-                this.calIds ? resolve(this.calIds) : reject();
-                resolve(this.calIds);
+        return StorageClient.get({calIds: ""})
+            .then((result) => {
+                console.log(result.calIds);
+                return result.calIds.split(',');
             });
-        });
     }
 
     async getRequestedCalendars() {
         // TODO: check if the cal names from options have changed
-        if (this.reqCals.length > 0) return Promise.resolve(this.reqCals);
+        // if (this.reqCals.length > 0) return Promise.resolve(this.reqCals);
         const allCalendars = await this.fetchAllCalendars();
         const calNames = await this.getCalNames();
-        this.reqCals = allCalendars.filter(cal => calNames.indexOf(cal.summary) !== -1);
-        return Promise.resolve(this.reqCals);
+        const reqCals = allCalendars.filter(cal => calNames.indexOf(cal.id) !== -1);
+        return reqCals;
     }
 
     async fetchThisWeeksEvents() {
