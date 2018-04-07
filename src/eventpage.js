@@ -34,7 +34,7 @@ function fetchTodos(req, cb) {
 
 function fetchCalEvents(req, cb) {
     if (eventCache.isEventCacheStale() || req.force) {
-        calClient.fetchThisWeeksEvents()
+        calClient.fetchThisWeeksEvents(req.force)
             .then(events => {
                 console.log(events);
                 eventCache.setEvents(events);

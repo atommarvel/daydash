@@ -33,17 +33,16 @@ class GCalClient {
             });
     }
 
-    async getRequestedCalendars() {
-        // TODO: check if the cal names from options have changed
-        // if (this.reqCals.length > 0) return Promise.resolve(this.reqCals);
+    async getRequestedCalendars(force = false) {
+        if (this.reqCals.length > 0 && !force) return Promise.resolve(this.reqCals);
         const allCalendars = await this.fetchAllCalendars();
         const calNames = await this.getCalNames();
         const reqCals = allCalendars.filter(cal => calNames.indexOf(cal.id) !== -1);
         return reqCals;
     }
 
-    async fetchThisWeeksEvents() {
-        const cals = await this.getRequestedCalendars();
+    async fetchThisWeeksEvents(force = false) {
+        const cals = await this.getRequestedCalendars(force);
 
         return Promise.map(cals, this.fetchEventsForCal.bind(this))
             .then(this.flatten)
