@@ -24,7 +24,7 @@ function ensureFolders() {
 // cp all needed files into 1 build folder
 function copyFiles() {
     let folders = ["img", "dist", "lib"];
-    let files = ["index.html", "options.html", "src/scss/index.css"];
+    let files = ["index.html", "options.html", "src/scss/index.css", "src/scss/options.css"];
     let toCopy = folders.concat(files);
 
     toCopy.forEach(place => {
