@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const moment = require('moment');
 const ItemDayOrganizer = require('./ItemDayOrganizer.js');
 const cacheExpMin = 5;
-// TODO: implement partial sync
+// TODO: implement partial sync - https://app.asana.com/0/527712617898694/530378788983821/f
 
 class TodoistClient {
     constructor() {
