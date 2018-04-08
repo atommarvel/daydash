@@ -19,7 +19,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <GreetingView overdue={this.state.overdue} forceRefresh={this.forceRefresh}/>
+                {this.renderHeader()}
                 {this.renderOverdueItems()}
                 <WeekList todos={this.state.todos} events={this.state.events} overdue={this.state.overdue}/>
             </div>
@@ -27,7 +27,26 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.getData()
+        this.getData();
+        this.initListeners();
+    }
+
+    renderHeader() {
+        return (
+            <div className={"header"}>
+                <GreetingView forceRefresh={this.forceRefresh}/>
+                {this.renderLoadingView()}
+            </div>
+        );
+    }
+
+    renderLoadingView() {
+        let result;
+        if (this.state.areEventsStale || this.state.areTodosStale) {
+            console.log("stale");
+            result = (<img id={"loading"} src={"/img/refresh.svg"}/>);
+        }
+        return result;
     }
 
     renderOverdueItems() {
@@ -55,11 +74,24 @@ class App extends React.Component {
     }
 
     updateEventState(res) {
-        this.setState({events: res.events});
+        this.setState({events: res.events, areEventsStale: res.areEventsStale});
     }
 
     updateTodoState(res) {
-        this.setState({todos: res.items.days, overdue: res.items.overdue || []});
+        console.log(`Staleness set to ${res.areTodosStale}`);
+        this.setState({todos: res.items.days, overdue: res.items.overdue || [], areTodosStale: res.areTodosStale});
+    }
+
+    initListeners() {
+        chrome.runtime.onMessage.addListener((message, sender, cb) => {
+            console.log(message);
+            if (message.updateEventState) {
+                this.updateEventState(message.eventData);
+            }
+            if (message.updateTodoState) {
+                this.updateTodoState(message.todoData);
+            }
+        });
     }
 }
 
@@ -67,5 +99,6 @@ class App extends React.Component {
 function ping(msg, cb) {
     chrome.runtime.sendMessage(msg, cb);
 }
+
 
 module.exports = App;

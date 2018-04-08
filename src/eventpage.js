@@ -18,31 +18,35 @@ chrome.runtime.onMessage.addListener(
 });
 
 function fetchTodos(req, cb) {
+    let isStale = false;
     if (eventCache.isTodoCacheStale() || req.force) {
+        isStale = true;
         todoClient.getThisWeeksItems()
             .then(items => {
                 console.log(items);
                 eventCache.setTodos(items);
-                cb({items: items});
+                ping({updateTodoState: true, todoData: {items: items, areTodosStale: false}});
             });
-        return true;
-    } else {
-        cb({items: eventCache.getTodoCache()})
     }
+    cb({items: eventCache.getTodoCache(), areTodosStale: isStale});
     return false;
 }
 
 function fetchCalEvents(req, cb) {
+    let isStale = false;
     if (eventCache.isEventCacheStale() || req.force) {
+        isStale = true;
         calClient.fetchThisWeeksEvents(req.force)
             .then(events => {
                 console.log(events);
                 eventCache.setEvents(events);
-                cb({events: events});
+                ping({updateEventState: true, eventData: {events: events, areEventsStale: false}});
             });
-        return true;
-    } else {
-        cb({events: eventCache.getEventCache()});
     }
+    cb({events: eventCache.getEventCache(), areEventsStale: isStale});
     return false;
+}
+
+function ping(msg, cb) {
+    chrome.runtime.sendMessage(msg, cb);
 }

@@ -65,4 +65,22 @@ a:link, a:visited, a:hover, a:active {
 
 #refresh {
   cursor: pointer;
+  display: inline;
+}
+
+#loading {
+  vertical-align: text-bottom;
+  animation-name: spin;
+  animation-duration: 1300ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.header {
+  margin-bottom: 1em;
+}
+
+@keyframes spin {
+  from {transform:rotate(360deg);}
+  to {transform:rotate(0deg);}
 }
