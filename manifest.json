@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Daydash",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Your personal day to day dashboard.",
   "icons": {
     "16": "img/logo16.png",
