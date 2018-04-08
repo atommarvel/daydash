@@ -1,7 +1,18 @@
 class TodoItemView extends React.Component {
     render() {
         const content = this.parseContent();
-        return <div>{content}</div>
+        return (<div>
+                    {this.maybeRenderDailyIndicator()}
+                    {this.parseContent()}
+                </div>);
+    }
+
+    maybeRenderDailyIndicator() {
+        let result;
+        if (this.props.todo.date_string === "every day") {
+            result = (<img className={"repeat"} src={"/img/repeat.svg"}/>);
+        }
+        return result;
     }
 
     // returns the index of the next word in the word array with a ')'
