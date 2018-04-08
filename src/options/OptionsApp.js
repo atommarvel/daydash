@@ -108,7 +108,13 @@ class OptionsApp extends React.Component {
             this.setState({btnState: "saved"});
         });
         this.setState({btnState: "saving"});
+        ping({onOptionsUpdated: true});
     }
+}
+
+// wrapper to save myself 22 characters to call this
+function ping(msg, cb) {
+    chrome.runtime.sendMessage(msg, cb);
 }
 
 module.exports = OptionsApp;

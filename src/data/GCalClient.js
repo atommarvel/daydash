@@ -90,6 +90,10 @@ class GCalClient {
         return headers;
     }
 
+    clearCachedCalendars() {
+        this.reqCals = [];
+    }
+
 }
 
 module.exports = GCalClient;

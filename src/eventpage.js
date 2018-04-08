@@ -13,6 +13,8 @@ chrome.runtime.onMessage.addListener(
             return fetchTodos(request, sendResponse);
         } else if (request.fetchCalEvents) {
             return fetchCalEvents(request, sendResponse);
+        } else if (request.onOptionsUpdated) {
+            return onOptionsUpdated();
         }
         return true;
 });
@@ -45,6 +47,10 @@ function fetchCalEvents(req, cb) {
     }
     cb({events: eventCache.getEventCache(), areEventsStale: isStale});
     return false;
+}
+
+function onOptionsUpdated() {
+    calClient.clearCachedCalendars();
 }
 
 function ping(msg, cb) {
