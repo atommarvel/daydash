@@ -3,38 +3,29 @@ const cacheLifeMin = 5;
 
 class EventCache {
 
-    setEvents(events) {
-        this.setCache('event', events);
-        this.setExpiration('event', moment().add(cacheLifeMin, 'm'));
+    constructor(key) {
+        this.key = key;
     }
 
-    getEventCache() {
-        return this.getCache('event');
+    set(item) {
+        this.setCache(item);
+        this.setExpiration(moment().add(cacheLifeMin, 'm'));
     }
 
-    isEventCacheStale() {
-        return this.isExpired('event');
+    get(def) {
+        return this.getCache(def);
     }
 
-    setTodos(todos) {
-        this.setCache('todo', todos);
-        this.setExpiration('todo', moment().add(cacheLifeMin, 'm'));
+    isStale() {
+        return this.isExpired();
     }
 
-    getTodoCache() {
-        return this.getCache('todo');
+    setExpiration(expiration) {
+        localStorage[`${this.key}Expiration`] = expiration.format();
     }
 
-    isTodoCacheStale() {
-        return this.isExpired('todo');
-    }
-
-    setExpiration(type, expiration) {
-        localStorage[`${type}Expiration`] = expiration.format();
-    }
-
-    isExpired(type) {
-        let exp = localStorage[`${type}Expiration`];
+    isExpired() {
+        let exp = localStorage[`${this.key}Expiration`];
         if (!exp) {
             return true
         }
@@ -42,13 +33,15 @@ class EventCache {
         return exp.isBefore(moment());
     }
 
-    setCache(type, data) {
-        localStorage[`${type}Cache`] = JSON.stringify(data);
+    setCache(data) {
+        localStorage[`${this.key}Cache`] = JSON.stringify(data);
     }
 
-    getCache(type) {
-        if (localStorage[`${type}Cache`]) {
-            return JSON.parse(localStorage[`${type}Cache`]);
+    getCache(def) {
+        if (localStorage[`${this.key}Cache`]) {
+            return JSON.parse(localStorage[`${this.key}Cache`]);
+        } else {
+            return def;
         }
     }
 }

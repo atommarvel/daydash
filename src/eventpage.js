@@ -3,8 +3,9 @@ const TodoistClient = require('./data/TodoistClient.js');
 const EventCache = require('./data/EventCache.js');
 
 const calClient = new GCalClient();
+const calCache = new EventCache("event");
 const todoClient = new TodoistClient();
-const eventCache = new EventCache();
+const todoCache = new EventCache("todo");
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
@@ -21,31 +22,31 @@ chrome.runtime.onMessage.addListener(
 
 function fetchTodos(req, cb) {
     let isStale = false;
-    if (eventCache.isTodoCacheStale() || req.force) {
+    if (todoCache.isStale() || req.force) {
         isStale = true;
         todoClient.getThisWeeksItems()
             .then(items => {
                 console.log(items);
-                eventCache.setTodos(items);
+                todoCache.set(items);
                 ping({updateTodoState: true, todoData: {items: items, areTodosStale: false}});
             });
     }
-    cb({items: eventCache.getTodoCache(), areTodosStale: isStale});
+    cb({items: todoCache.get([]), areTodosStale: isStale});
     return false;
 }
 
 function fetchCalEvents(req, cb) {
     let isStale = false;
-    if (eventCache.isEventCacheStale() || req.force) {
+    if (calCache.isStale() || req.force) {
         isStale = true;
         calClient.fetchThisWeeksEvents(req.force)
             .then(events => {
                 console.log(events);
-                eventCache.setEvents(events);
+                calCache.set(events);
                 ping({updateEventState: true, eventData: {events: events, areEventsStale: false}});
             });
     }
-    cb({events: eventCache.getEventCache(), areEventsStale: isStale});
+    cb({events: calCache.get([]), areEventsStale: isStale});
     return false;
 }
 
