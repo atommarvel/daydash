@@ -1,16 +1,21 @@
-// In charge of interacting with GCal APIs
-// https://developers.google.com/google-apps/calendar/
 const Promise = require('bluebird');
 const moment = require('moment');
+
 const ItemDayOrganizer = require('./ItemDayOrganizer.js');
 const StorageClient = require('./StorageClient.js');
+
 const baseUrl = 'https://www.googleapis.com/calendar/v3';
+
+/**
+ * In charge of interacting with Google Calendar APIs
+ * https://developers.google.com/google-apps/calendar/
+ */
 
 class GCalClient {
 
     constructor() {
+        // The calendars that should be queried for events.
         this.reqCals = [];
-        this.events = [[],[],[],[],[],[],[]];
     }
 
     getAccessToken() {
@@ -27,18 +32,15 @@ class GCalClient {
 
     getCalNames() {
         return StorageClient.get({calIds: ""})
-            .then((result) => {
-                console.log(result.calIds);
-                return result.calIds.split(',');
-            });
+            .then((result) => {result.calIds.split(',')});
     }
 
     async getRequestedCalendars(force = false) {
+        // Don't bother re-fetching requested calendars unless they are missing or the request is forced
         if (this.reqCals.length > 0 && !force) return Promise.resolve(this.reqCals);
         const allCalendars = await this.fetchAllCalendars();
         const calNames = await this.getCalNames();
-        const reqCals = allCalendars.filter(cal => calNames.indexOf(cal.id) !== -1);
-        return reqCals;
+        return  allCalendars.filter(cal => calNames.indexOf(cal.id) !== -1);
     }
 
     async fetchThisWeeksEvents(force = false) {
@@ -49,7 +51,7 @@ class GCalClient {
             .then(events => {
                 const itemOrganizer = new ItemDayOrganizer(events, true);
                 return itemOrganizer.getOrganizedArr();
-            })
+            });
     }
 
     flatten(arr) {
@@ -61,30 +63,23 @@ class GCalClient {
         const timeMin = `timeMin=${moment().startOf('day').format()}`;
         const timeMax = `timeMax=${moment().endOf('day').add(6,'d').format()}`;
         const url = `${api}?${timeMin}&${timeMax}`;
-        return this.getAuthHeaders()
-            .then(headers => {
-                return {headers: headers};
-            })
-            .then(init => fetch(url, init))
-            .then(res => res.json())
-            .then(events => events.items);
+        return this.sendAuthenticatedRequest(url);
     }
 
     fetchAllCalendars() {
         const url = `${baseUrl}/users/me/calendarList`;
+        return this.sendAuthenticatedRequest(url);
+    }
+
+    sendAuthenticatedRequest(url) {
         return this.getAuthHeaders()
-            .then(headers => {
-                return {headers: headers};
-            })
+            .then(headers => {return {headers: headers}})
             .then(init => fetch(url, init))
             .then(res => res.json())
             .then(json => json.items);
     }
 
-    async getAuthHeaders(headers) {
-        if (!headers) {
-            headers = new Headers();
-        }
+    async getAuthHeaders(headers = new Headers()) {
         const token = await this.getAccessToken();
         headers.append('authorization', `Bearer ${token}`);
         return headers;

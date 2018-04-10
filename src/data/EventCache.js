@@ -1,6 +1,11 @@
 const moment = require('moment');
 const cacheLifeMin = 5;
 
+/**
+ * Manages data in local storage associated with the key provided in the constructor.
+ * Will also track data expiration.
+ */
+
 class EventCache {
 
     constructor(key) {
