@@ -1,17 +1,20 @@
-// In charge of interacting with Todoist APIs
-// https://developer.todoist.com/
 const Promise = require('bluebird');
-const moment = require('moment');
+
 const TodoistSorter = require('../util/sort/TodoistSorter.js');
-const cacheExpMin = 5;
+const StorageClient = require('./StorageClient.js');
+
+const baseUrl = "https://todoist.com/api/v7";
 // TODO: implement partial sync - https://app.asana.com/0/527712617898694/530378788983821/f
 
+/**
+ * In charge of interacting with Todoist APIs.
+ * https://developer.todoist.com/
+ */
+
 class TodoistClient {
+
     constructor() {
         this.syncToken = "*";
-        this.allItems = {};
-        this.items = [{},{},{},{},{},{},{}];
-        this.cacheStamp = moment();
     }
 
     getAPIKey() {
@@ -19,15 +22,12 @@ class TodoistClient {
             return Promise.resolve(this.apiKey);
         }
 
-        return new Promise((resolve, reject) => {
-            chrome.storage.sync.get({
-                todoKey: ""
-            }, function(items) {
+        return StorageClient.getItem("todoKey")
+            .then((items) => {
                 this.apiKey = items.todoKey;
                 if (this.apiKey.length === 0) console.log('todoist api key is missing');
-                this.apiKey ? resolve(this.apiKey) : reject();
+                return this.apiKey;
             });
-        });
     }
 
     async getSyncBody() {
@@ -39,7 +39,7 @@ class TodoistClient {
     }
 
     async sync() {
-        const url = 'https://todoist.com/api/v7/sync';
+        const url = `${baseUrl}/sync`;
         let headers = new Headers();
         headers.append('content-type','application/x-www-form-urlencoded');
 
@@ -49,13 +49,11 @@ class TodoistClient {
             body: body,
             headers: headers
         };
-        this.cacheExpires = moment().add(cacheExpMin, 'm');
         return fetch(url, init)
             .then(res => res.json());
     }
 
     async getThisWeeksItems() {
-        if (moment().isBefore(this.cacheExpires)) Promise.resolve(this.items);
         const syncData = await this.sync();
         const sorter = new TodoistSorter(syncData.items);
         return {

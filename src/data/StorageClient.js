@@ -1,5 +1,9 @@
 const Promise = require('bluebird');
 
+/**
+ * A simple wrapper around chrome.storage api's. Helps with Promisify-ing things.
+ */
+
 class StorageClient {
 
     saveItem(key, value) {
@@ -11,7 +15,7 @@ class StorageClient {
     getItem(key, defaultValue = "") {
         let data = {};
         data[key] = defaultValue;
-        return get(data);
+        return this.get(data);
     }
 
     getItems(keys, defaultValues = [""]) {

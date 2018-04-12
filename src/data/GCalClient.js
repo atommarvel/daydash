@@ -31,8 +31,8 @@ class GCalClient {
     }
 
     getCalNames() {
-        return StorageClient.get({calIds: ""})
-            .then((result) => {return result.calIds.split(',')});
+        return StorageClient.getItem("calIds")
+            .then((result) => result.calIds.split(','));
     }
 
     async getRequestedCalendars(force = false) {
