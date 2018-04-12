@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const moment = require('moment');
 
-const ItemDayOrganizer = require('./ItemDayOrganizer.js');
+const GCalSorter = require('../util/sort/GCalSorter.js');
 const StorageClient = require('./StorageClient.js');
 
 const baseUrl = 'https://www.googleapis.com/calendar/v3';
@@ -32,7 +32,7 @@ class GCalClient {
 
     getCalNames() {
         return StorageClient.get({calIds: ""})
-            .then((result) => {result.calIds.split(',')});
+            .then((result) => {return result.calIds.split(',')});
     }
 
     async getRequestedCalendars(force = false) {
@@ -49,8 +49,8 @@ class GCalClient {
         return Promise.map(cals, this.fetchEventsForCal.bind(this))
             .then(this.flatten)
             .then(events => {
-                const itemOrganizer = new ItemDayOrganizer(events, true);
-                return itemOrganizer.getOrganizedArr();
+                const sorter = new GCalSorter(events);
+                return sorter.getOrganizedArr();
             });
     }
 

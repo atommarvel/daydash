@@ -2,7 +2,7 @@
 // https://developer.todoist.com/
 const Promise = require('bluebird');
 const moment = require('moment');
-const ItemDayOrganizer = require('./ItemDayOrganizer.js');
+const TodoistSorter = require('../util/sort/TodoistSorter.js');
 const cacheExpMin = 5;
 // TODO: implement partial sync - https://app.asana.com/0/527712617898694/530378788983821/f
 
@@ -57,10 +57,10 @@ class TodoistClient {
     async getThisWeeksItems() {
         if (moment().isBefore(this.cacheExpires)) Promise.resolve(this.items);
         const syncData = await this.sync();
-        const organizer = new ItemDayOrganizer(syncData.items, false);
+        const sorter = new TodoistSorter(syncData.items);
         return {
-            days: organizer.getOrganizedArr(),
-            overdue: organizer.getOlderItems()
+            days: sorter.getOrganizedArr(),
+            overdue: sorter.getOlderItems()
         };
     }
 
