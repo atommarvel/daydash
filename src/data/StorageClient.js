@@ -20,7 +20,6 @@ class StorageClient {
 
     getItems(keys, defaultValues = [""]) {
         let data = this.generateDataObj(keys, defaultValues);
-        console.log(data);
         return this.get(data);
     }
 

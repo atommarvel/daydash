@@ -43,7 +43,6 @@ class App extends React.Component {
     renderLoadingView() {
         let result;
         if (this.state.areEventsStale || this.state.areTodosStale) {
-            console.log("stale");
             result = (<img id={"loading"} src={"/img/refresh.svg"}/>);
         }
         return result;
@@ -78,13 +77,11 @@ class App extends React.Component {
     }
 
     updateTodoState(res) {
-        console.log(`Staleness set to ${res.areTodosStale}`);
         this.setState({todos: res.items.days, overdue: res.items.overdue || [], areTodosStale: res.areTodosStale});
     }
 
     initListeners() {
         chrome.runtime.onMessage.addListener((message, sender, cb) => {
-            console.log(message);
             if (message.updateEventState) {
                 this.updateEventState(message.eventData);
             }

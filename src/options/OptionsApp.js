@@ -81,7 +81,6 @@ class OptionsApp extends React.Component {
 
     async loadData() {
         let items = await StorageClient.getItems(this.state.keys);
-        console.log(items);
         let newState = {};
         for (let key in items) {
             let data = this.state[key];

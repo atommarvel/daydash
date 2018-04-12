@@ -9,7 +9,6 @@ const todoCache = new EventCache("todo");
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log(request);
         if (request.fetchTodos) {
             return fetchTodos(request, sendResponse);
         } else if (request.fetchCalEvents) {
@@ -26,7 +25,6 @@ function fetchTodos(req, cb) {
         isStale = true;
         todoClient.getThisWeeksItems()
             .then(items => {
-                console.log(items);
                 todoCache.set(items);
                 ping({updateTodoState: true, todoData: {items: items, areTodosStale: false}});
             });
@@ -41,7 +39,6 @@ function fetchCalEvents(req, cb) {
         isStale = true;
         calClient.fetchThisWeeksEvents(req.force)
             .then(events => {
-                console.log(events);
                 calCache.set(events);
                 ping({updateEventState: true, eventData: {events: events, areEventsStale: false}});
             });

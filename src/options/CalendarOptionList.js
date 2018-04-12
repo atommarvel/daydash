@@ -5,7 +5,6 @@ class CalendarOptionList extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state ={cals: []};
         this.bindFuncs();
     }
@@ -53,7 +52,6 @@ class CalendarOptionList extends React.Component {
                 checked.splice(index,1);
             }
         }
-        console.log(checked);
         this.props.changeListener(this.props.storageKey, checked.join(','));
     }
 
