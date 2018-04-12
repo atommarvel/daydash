@@ -1,4 +1,4 @@
-class TextboxOption extends React.Component {
+class TextboxOptionView extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +10,6 @@ class TextboxOption extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div className={"optionItem"}>
                 <div><label>{this.props.data.title}</label></div>
@@ -24,4 +23,4 @@ class TextboxOption extends React.Component {
     }
 }
 
-module.exports = TextboxOption;
+module.exports = TextboxOptionView;

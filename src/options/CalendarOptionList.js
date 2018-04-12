@@ -1,7 +1,7 @@
 const GCalClient = require('../data/GCalClient.js');
 const gCalClient = new GCalClient();
 
-class CalendarOption extends React.Component {
+class CalendarOptionList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -16,7 +16,6 @@ class CalendarOption extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         const items = this.state.cals.length > 0 ? this.state.cals.map(this.renderCalendarItem) : (<div>No Calendars Loaded</div>);
         return (
             <div className={"optionItem"}>
@@ -70,4 +69,4 @@ class CalendarOption extends React.Component {
     }
 }
 
-module.exports = CalendarOption;
+module.exports = CalendarOptionList;

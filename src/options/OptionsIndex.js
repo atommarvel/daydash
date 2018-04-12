@@ -1,8 +1,8 @@
-const App = require('./OptionsApp.js');
+const OptionsApp = require('./OptionsApp.js');
 
 ReactDOM.render(
     (
-        <App/>
+        <OptionsApp/>
     ),
     document.getElementById('root')
 );

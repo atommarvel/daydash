@@ -1,7 +1,7 @@
-const TextboxOption = require('./TextboxOption.js');
-const CalendarOption = require('./CalendarOption.js');
+const TextboxOptionView = require('./TextboxOptionView.js');
+const CalendarOptionList = require('./CalendarOptionList.js');
 
-class OptionItem extends React.Component {
+class OptionItemView extends React.Component {
 
     render() {
         let result;
@@ -17,15 +17,15 @@ class OptionItem extends React.Component {
     }
 
     renderTextboxOption() {
-        return <TextboxOption data={this.props.data} changeListener={this.props.changeListener} storageKey={this.props.storageKey}/>
+        return <TextboxOptionView data={this.props.data} changeListener={this.props.changeListener} storageKey={this.props.storageKey}/>
     }
 
     renderCalendarOption() {
-        return <CalendarOption title={this.props.data.title}
+        return <CalendarOptionList title={this.props.data.title}
                                value={this.props.data.value.split(',')}
                                changeListener={this.props.changeListener}
                                storageKey={this.props.storageKey}/>
     }
 }
 
-module.exports = OptionItem;
+module.exports = OptionItemView;

@@ -1,4 +1,4 @@
-const OptionItem = require('./OptionItem.js');
+const OptionItemView = require('./OptionItemView.js');
 const StorageClient = require('../data/StorageClient.js');
 
 const initialState = {
@@ -46,7 +46,7 @@ class OptionsApp extends React.Component {
             return (<div>Loading...</div>);
         } else {
             let items = this.state.keys.map((key) => {
-                return <OptionItem data={this.state[key]} changeListener={this.optionChangeListener} key={key} storageKey={key}/>
+                return <OptionItemView data={this.state[key]} changeListener={this.optionChangeListener} key={key} storageKey={key}/>
             });
 
             return (
