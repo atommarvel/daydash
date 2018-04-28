@@ -1,3 +1,7 @@
+/**
+ * An OptionView that allows the user to access the options data via a textbox.
+ */
+
 class TextboxOptionView extends React.Component {
 
     constructor(props) {
