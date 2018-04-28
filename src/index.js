@@ -1,4 +1,4 @@
-const App = require('./ui/App.js');
+const App = require('./newtab/App.js');
 
 ReactDOM.render(
     (
