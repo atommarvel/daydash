@@ -1,6 +1,17 @@
 const GCalClient = require('../data/GCalClient.js');
 const gCalClient = new GCalClient();
 
+/**
+ * Displays a list of checkboxes with calendar names.
+ * Props:
+ *      title: option label
+ *      value: list of currently checked calendars
+ *      changeListener: callback triggered when a cal is checked or unchecked
+ *      storageKey: the key used to store this option's data
+ * State:
+ *      cals: array of all the user's calendars
+ */
+
 class CalendarOptionList extends React.Component {
 
     constructor(props) {
@@ -15,15 +26,25 @@ class CalendarOptionList extends React.Component {
     }
 
     render() {
-        const items = this.state.cals.length > 0 ? this.state.cals.map(this.renderCalendarItem) : (<div>No Calendars Loaded</div>);
         return (
             <div className={"optionItem"}>
                 <div><label>{this.props.title}</label></div>
-                <div id={"calendarList"}>
-                    {items}
-                </div>
+                {this.renderCalendarItems()}
             </div>
         );
+    }
+
+    renderCalendarItems() {
+        let result;
+        if (this.state.cals.length > 0) {
+            result = (
+                <div id={"calendarList"}>
+                    {this.state.cals.map(this.renderCalendarItem)}
+                </div>);
+        } else {
+            result = (<div>No Calendars Loaded</div>);
+        }
+        return result;
     }
 
     renderCalendarItem(cal) {
@@ -43,27 +64,21 @@ class CalendarOptionList extends React.Component {
     toggleCheck(event) {
         const isChecked = event.target.checked;
         const calId = event.target.getAttribute("data-cal-id");
-        const checked = this.props.value;
+        const checkedCals = this.props.value;
         if (isChecked) {
-            checked.push(calId);
+            checkedCals.push(calId);
         } else {
             const index = checked.indexOf(calId);
             if (index > -1) {
-                checked.splice(index,1);
+                checkedCals.splice(index,1);
             }
         }
         this.props.changeListener(this.props.storageKey, checked.join(','));
     }
 
-    componentDidMount() {
-        this.fetchData();
-    }
-
-    async fetchData() {
+    async componentDidMount() {
         const cals = await gCalClient.fetchAllCalendars();
-        this.setState({
-            cals: cals
-        });
+        this.setState({cals: cals});
     }
 }
 
