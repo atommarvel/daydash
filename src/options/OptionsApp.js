@@ -1,6 +1,7 @@
 const OptionItemView = require('./OptionItemView.js');
 const StorageClient = require('../data/StorageClient.js');
 
+// TODO: Refactor to a more pleasant system:  https://app.asana.com/0/527712617898694/653479704881740/f
 const initialState = {
     loaded: false,
     btnState: "noChanges",
@@ -42,6 +43,7 @@ class OptionsApp extends React.Component {
 
     renderOptions() {
         // Just show a loading screen if we don't have the data yet
+        // TODO: Find a loading placeholder library or make one myself: https://app.asana.com/0/527712617898694/653528546808740/f
         if (!this.state.loaded) {
             return (<div>Loading...</div>);
         } else {
@@ -59,6 +61,7 @@ class OptionsApp extends React.Component {
 
     renderSaveButton() {
         let result;
+        // TODO: Make save button states not just hard-coded strings: https://app.asana.com/0/527712617898694/653528546808741/f
         switch (this.state.btnState) {
             case "noChanges":
                 result = (<div></div>);
