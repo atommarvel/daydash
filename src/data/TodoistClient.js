@@ -55,7 +55,14 @@ class TodoistClient {
 
     async getThisWeeksItems() {
         const syncData = await this.sync();
-        const sorter = new TodoistSorter(syncData.items);
+
+        // filter out items that are assigned to a user that is not the current user
+        const userId = syncData.user.id;
+        const items = syncData.items.filter(item => {
+            return item.responsible_uid === null || item.responsible_uid === userId
+        });
+
+        const sorter = new TodoistSorter(items);
         return {
             days: sorter.getOrganizedArr(),
             overdue: sorter.getOlderItems()
