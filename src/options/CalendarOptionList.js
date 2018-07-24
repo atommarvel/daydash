@@ -68,12 +68,12 @@ class CalendarOptionList extends React.Component {
         if (isChecked) {
             checkedCals.push(calId);
         } else {
-            const index = checked.indexOf(calId);
+            const index = checkedCals.indexOf(calId);
             if (index > -1) {
                 checkedCals.splice(index,1);
             }
         }
-        this.props.changeListener(this.props.storageKey, checked.join(','));
+        this.props.changeListener(this.props.storageKey, checkedCals.join(','));
     }
 
     async componentDidMount() {
